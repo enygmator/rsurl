@@ -1,20 +1,55 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>rsurl_frontend</PageTitle>
+<PageTitle>rsurl</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@namespace AntDesign.Pro.Template
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<AntDesign.ProLayout.BasicLayout MenuData="MenuData">
+    <RightContentRender>
+        @*<AntDesign.Pro.Template.Components.RightContent />*@
+    </RightContentRender>
+    <ChildContent>
+        @Body
+    </ChildContent>
+    <FooterRender>
+        <FooterView Copyright="" Links="Links"></FooterView>
+    </FooterRender>
+</AntDesign.ProLayout.BasicLayout>
+<SettingDrawer />
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@inject HttpClient HttpClient
+@code
+{
+    private MenuDataItem[] MenuData { get; set; } = { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        MenuData = await HttpClient.GetFromJsonAsync<MenuDataItem[]>("data/menu.json");
+    }
+
+    public LinkItem[] Links { get; set; } =
+    {
+        new LinkItem
+        {
+            Key = "Ant Design Blazor",
+            Title = "Ant Design Blazor",
+            Href = "https://antblazor.com",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "github",
+            Title = (RenderFragment)(@<Icon Type="github" />),
+            Href = "https://github.com/ant-design-blazor/ant-design-pro-blazor",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "Blazor",
+            Title = "Blazor",
+            Href = "https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor?WT.mc_id=DT-MVP-5003987",
+            BlankTarget = true,
+        }
+    };
+}

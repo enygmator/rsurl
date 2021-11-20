@@ -1,3 +1,4 @@
+using AntDesign.ProLayout;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,12 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
 */
+
+builder.Services.AddAntDesign();
+builder.Services.Configure<ProSettings>(builder.Configuration.GetSection("ProSettings"));
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<httpClientService>();
+
 builder.Services.AddScoped<AuthenticationStateProvider, rsurl_auth_services_provider>();
 
 builder.Services.AddAuthorization(options =>
@@ -28,8 +35,10 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddRazorPages();
+
 builder.Services.AddServerSideBlazor();
     //.AddMicrosoftIdentityConsentHandler();
+
 builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
