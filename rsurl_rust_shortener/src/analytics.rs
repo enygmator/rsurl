@@ -1,17 +1,10 @@
-use nanoid::nanoid;
-use mongodb::{Client, Collection, options::ClientOptions};
-use serde::{Deserialize, Serialize};
-use futures::stream::TryStreamExt;
-use mongodb::{bson::{doc, Document}, options::FindOptions};
-
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Surl {
+pub struct telemetry {
     short_url: String,
     long_url: String,
     userid: Option<String>
 }
-
 
 pub struct SurlCollection {
     collection: Collection<Surl>
@@ -60,17 +53,10 @@ impl SurlCollection {
 
         match self.collection.find_one(doc!{ "short_url": id }, None).await {
             Ok(optsurl) => match optsurl {
-                Some(surl) => {
-                    //self.collection.update_one(doc!{ "short_url": id, "count": 1 }, )
-                    Some(surl.long_url)
-                },
+                Some(surl) => Some(surl.long_url),
                 None => None
             },
             Err(_) => None
         }
     }
-}
-
-pub async fn test() {
-
 }

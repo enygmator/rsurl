@@ -45,7 +45,7 @@ mod shortener;
 use std::path::Path;
 use shortener::SurlCollection;
 
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, HttpRequest};
 use std::sync::Mutex;
 use serde::Deserialize;
 
@@ -63,9 +63,12 @@ async fn shorten(repo: web::Data<Mutex<SurlCollection>>, url_form: web::Form<Url
 }
 
 #[get("/{id}")]
-async fn echo(repo: web::Data<Mutex<SurlCollection>>, web::Path(id): web::Path<String>) -> impl Responder {
+async fn echo(req: HttpRequest, repo: web::Data<Mutex<SurlCollection>>, web::Path(id): web::Path<String>) -> impl Responder {
     match repo.lock().unwrap().lookup(&id).await {
-        Some(url) => HttpResponse::PermanentRedirect().header("Location",format!("{}", url)).body(""),
+        Some(url) => {
+            //println!("{}", req.headers().get("content-type").unwrap().to_str().unwrap());
+            HttpResponse::PermanentRedirect().header("Location", format!("{}", url)).body("")
+        },
         _ => HttpResponse::NotFound().body("Requested ID was not found.")
     }
 }
