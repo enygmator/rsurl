@@ -1,0 +1,23 @@
+﻿<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All">Home</MudNavLink>
+    <MudNavGroup Title="RSURL App" Expanded="true">
+        <MudNavLink Href="/gensurl">Generate Short URL</MudNavLink>
+    </MudNavGroup>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="/myurls">My URLs</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+    <MudNavGroup Title="Analytics" Expanded="false">
+        <AuthorizeView>
+            <Authorized>
+                <MudNavLink Href="">Browser</MudNavLink>
+                <MudNavLink Href="">Location</MudNavLink>
+            </Authorized>
+            <NotAuthorized>
+                <p>You need to Log in for analytics</p>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudNavGroup>
+    <MudNavLink Href="/test">💀 Test</MudNavLink>
+</MudNavMenu>

@@ -1,0 +1,11 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <form method="post" action="Identity/Account/LogOut">
+            <button type="submit" class="nav-link btn btn-link">Log out</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <MudLink Href="Identity/Account/Register">Register</MudLink>
+        <MudLink Href="Identity/Account/Login">Log in</MudLink>
+    </NotAuthorized>
+</AuthorizeView>

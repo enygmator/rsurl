@@ -1,0 +1,41 @@
+﻿@page "/gensurl"
+@using rsurl_mublazor_frontend.Services
+@inject rsurlAPIservice apiService;
+@inject IDialogService DialogService
+
+<PageTitle>Generate short URL</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        Hello! @context.User.Identity.Name
+    </Authorized>
+    <NotAuthorized>
+        <MudTextField @bind-Value="urlValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="genSURL">Generate Short Url</MudButton>
+        <MudText>Your URL is:</MudText>
+        <MudLink Href="@LinkText">@LinkText</MudLink>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    public string urlValue { get; set; } = "https://www.bing.com";
+
+    public string LinkText { get; set; }
+
+    private async void genSURL()
+    {
+        (string, string) status = await apiService.GetShortURL(urlValue);
+        if(status.Item1 == "OK")
+        {
+            LinkText = status.Item2;
+
+        }
+        else
+        {
+            await DialogService.ShowMessageBox(
+            "Error", 
+            "There was an error generating the URL!", cancelText:"close");
+        }
+        StateHasChanged();
+    }
+}
