@@ -3,6 +3,7 @@
 <PageTitle>rsurl</PageTitle>
 
 @namespace AntDesign.Pro.Template
+@using Newtonsoft.Json.Linq
 
 <AntDesign.ProLayout.BasicLayout MenuData="MenuData">
     <RightContentRender>
@@ -25,7 +26,8 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        MenuData = await HttpClient.GetFromJsonAsync<MenuDataItem[]>("data/menu.json");
+        JArray arr = JArray.Parse(File.ReadAllText(@"wwwroot/data/menu.json", System.Text.Encoding.UTF8));
+        MenuData = arr.ToObject<MenuDataItem[]>();
     }
 
     public LinkItem[] Links { get; set; } =
@@ -40,7 +42,8 @@
         new LinkItem
         {
             Key = "github",
-            Title = (RenderFragment)(@<Icon Type="github" />),
+            Title = (RenderFragment)(
+    @<Icon Type="github" />),
             Href = "https://github.com/ant-design-blazor/ant-design-pro-blazor",
             BlankTarget = true,
         },

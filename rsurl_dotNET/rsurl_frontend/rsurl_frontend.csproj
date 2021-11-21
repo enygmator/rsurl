@@ -10,6 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\data\menu.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\data\menu.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.10.2" />
     <PackageReference Include="AntDesign.ProLayout" Version="0.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" NoWarn="NU1605" />
@@ -17,11 +25,11 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="1.21.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.21.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="wwwroot\" />
-		<Folder Include="wwwroot\data\" />
+		<None Update=".\wwwroot\data\menu.json" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>
